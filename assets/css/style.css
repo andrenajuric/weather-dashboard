@@ -37,3 +37,7 @@ aside h2 {
 #searchBtn {
     border-radius: 5px;
 }
+
+#current-date {
+    color: red;
+}
