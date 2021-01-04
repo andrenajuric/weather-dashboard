@@ -2,6 +2,13 @@ let today = moment().format("M/D/YYYY");
 const APIKey = "cf0e69cbcb190a2cd7bb4cb1feb02364";
 let cityInput = $("#city-input");
 const searchButton = $("#searchBtn");
+const currentWeatherEl = $("#current-weather");
+const currentHeadlineEl = $("#display-headline");
+const currentTempEl = $("#current-temp");
+const currentHumidityEl = $("#current-humidity");
+const currentWindspeedEl = $("#current-windspeed");
+const currentUviEl = $("#current-uvi");
+const weatherForecastEl = $("#forecast");
 
 function citySearch(event) {
 
@@ -29,6 +36,7 @@ function getWeather(city) {
     }).then(function (response) {
         let cityName = response.name;
         let weatherIcon = response.weather[0].icon; // returns weather icon code
+        let wiconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`
         let kTemp = response.main.temp; // returns current temp in Kelvin
         let currentTemp = ((kTemp - 273.15) * 9 / 5 + 32).toFixed(1); // converts Kelvin to Fahrenheit
         let currentHumidity = response.main.humidity;
@@ -37,24 +45,29 @@ function getWeather(city) {
         let longitude = response.coord.lon;
 
         // WHEN I view current weather conditions for that city
-        const weatherForecast = $("#current-weather");
-        // THEN I am presented with city name, date, weather icon, temperature, humidity, wind speed, and UV index
-        weatherForecast.html(
-            "<h2>" + cityName + " (" + today + ") <img id='wicon' src='http://openweathermap.org/img/w/" + weatherIcon +
-            ".png'>" + "</h2>" +
-            "<p> Temperature: " + currentTemp + " °F</p>" +
-            "<p> Humidity: " + currentHumidity + "%</p>" +
-            "<p> Wind Speed: " + windSpeed + " MPH</p>"
-        );
-        $.ajax({
-            url: "http://api.openweathermap.org/data/2.5/uvi?lat=" + latitude + "&lon=" + longitude + "&appid=" + APIKey,
-            method: "GET"
-        }).then(function (response) {
-            let uvIndex = response.value;
 
-            const uvDisplay = $("#uv-index");
-            uvDisplay.append("UV Index: " + uvIndex);
-        })
+        // THEN I am presented with city name, date, weather icon, temperature, humidity, wind speed, and UV index
+        currentHeadlineEl.html(`${cityName} (${today})` + " <img id='wicon' src='" + wiconURL + "'>");
+        currentTempEl.html(`Temperature: ${currentTemp} °F`);
+        currentHumidityEl.html(`Humidity: ${currentHumidity}%`);
+        currentWindspeedEl.html(`Wind Speed: ${windSpeed} MPH`);
+
+        fiveDays(latitude, longitude);
     });
+}
+
+function fiveDays(latitude, longitude) {
+
+    let queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=imperial&exclude=hourly&appid=" + APIKey;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function (response) {
+        let uvi = response.current.uvi;
+        console.log(uvi);;
+
+        currentUviEl.html(`UV Index: ${uvi}`);
+    })
 
 }

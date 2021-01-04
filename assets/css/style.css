@@ -17,6 +17,11 @@ header h1 {
     text-align: center;
 }
 
+#current-weather {
+    float: right;
+    margin-top: -90px;
+}
+
 aside {
     background-color: rgb(230, 230, 230);
     width: 25em;
@@ -36,8 +41,4 @@ aside h2 {
 
 #searchBtn {
     border-radius: 5px;
-}
-
-#current-date {
-    color: red;
 }
