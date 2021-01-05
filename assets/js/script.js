@@ -8,7 +8,7 @@ const currentTempEl = $("#current-temp");
 const currentHumidityEl = $("#current-humidity");
 const currentWindspeedEl = $("#current-windspeed");
 const currentUviEl = $("#current-uvi");
-const weatherForecastEl = $("#forecast");
+const forecastContainerEl = $("#forecast-container");
 
 function citySearch(event) {
 
@@ -34,6 +34,8 @@ function getWeather(city) {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+
+        // gets all the info needed from response & stores in variables
         let cityName = response.name;
         let weatherIcon = response.weather[0].icon; // returns weather icon code
         let wiconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`
@@ -52,22 +54,55 @@ function getWeather(city) {
         currentHumidityEl.html(`Humidity: ${currentHumidity}%`);
         currentWindspeedEl.html(`Wind Speed: ${windSpeed} MPH`);
 
+        // calls fiveDays function and passes lat & long results from this function 
         fiveDays(latitude, longitude);
     });
 }
 
 function fiveDays(latitude, longitude) {
 
+    // takes lat & long results from getWeather function & inserts it into onecall queryURL 
     let queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=imperial&exclude=hourly&appid=" + APIKey;
 
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
+
+        // gets the current uv index
         let uvi = response.current.uvi;
-        console.log(uvi);;
-
+        // appends to current-uvi element under 'current-weather' in html
         currentUviEl.html(`UV Index: ${uvi}`);
-    })
 
+        // for loop for 5-day weather info
+        for (let i = 1; i < 6; i++) {
+
+            // variables for each weather-forecast card
+            let fiveDayIcons = response.daily[i].weather[0].icon;
+            let fiveDayTemps = response.daily[i].temp.day;
+            let fiveDayHumidity = response.daily[i].humidity;
+
+            // 
+            const weatherForecastEl = $("<div id='weather-forecast' class='card p-2 bg-primary text-light col-sm row m-1'>");
+            const forecastDateEl = $("<p id='forecast-date'>");
+            const forecastIconEl = $("<img id='forecast-icon' src='' class='col-9'></img>");
+            const forecastTempEl = $("<p id='forecast-temp'>");
+            const forecastHumidityEl = $("<p id='forecast-humidity'>");
+
+            // appends 5-day elements to html
+            forecastContainerEl.append(weatherForecastEl);
+            weatherForecastEl.append(forecastDateEl, forecastIconEl, forecastTempEl, forecastHumidityEl);
+
+            // console.log(response.daily[i]);
+            // console.log(fiveDayIcons, fiveDayTemps, fiveDayHumidity);
+
+            let numDays = moment().add(i, 'd');
+            let fiveDates = numDays.format("M/D/YYYY");
+
+            forecastDateEl.html(`${fiveDates}`);
+            forecastTempEl.html(`Temp: ${fiveDayTemps}°F`);
+            forecastHumidityEl.html(`Humidity: ${fiveDayHumidity}%`);
+            forecastIconEl.attr('src', `http://openweathermap.org/img/w/${fiveDayIcons}.png`);
+        }
+    });
 }

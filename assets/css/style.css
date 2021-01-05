@@ -17,10 +17,10 @@ header h1 {
     text-align: center;
 }
 
-#current-weather {
+/* #current-weather {
     float: right;
     margin-top: -90px;
-}
+} */
 
 aside {
     background-color: rgb(230, 230, 230);
