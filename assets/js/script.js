@@ -23,7 +23,7 @@ searchButton.on("click", citySearch);
 // gets current weather info via openweathermap API
 function getWeather(city) {
 
-    let queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIKey;
 
     $.ajax({
         url: queryURL,
@@ -33,7 +33,7 @@ function getWeather(city) {
         // gets all the info needed from response & stores in variables
         let cityName = response.name;
         let weatherIcon = response.weather[0].icon; // returns weather icon code
-        let wiconURL = `http://openweathermap.org/img/w/${weatherIcon}.png`
+        let wiconURL = `https://openweathermap.org/img/w/${weatherIcon}.png`
         let kTemp = response.main.temp; // returns current temp in Kelvin
         let currentTemp = ((kTemp - 273.15) * 9 / 5 + 32).toFixed(1); // converts Kelvin to Fahrenheit
         let currentHumidity = response.main.humidity;
@@ -111,7 +111,7 @@ function fiveDays(latitude, longitude) {
             forecastDateEl.html(`${fiveDates}`);
             forecastTempEl.html(`Temp: ${fiveDayTemps}°F`);
             forecastHumidityEl.html(`Humidity: ${fiveDayHumidity}%`);
-            forecastIconEl.attr('src', `http://openweathermap.org/img/w/${fiveDayIcons}.png`);
+            forecastIconEl.attr('src', `https://openweathermap.org/img/w/${fiveDayIcons}.png`);
         }
     });
 }
