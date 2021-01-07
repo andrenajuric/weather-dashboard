@@ -18,7 +18,7 @@ Displays current weather information, plus 5-day forecast for any given city.
 
 ## Location
 
-* [GitHub Repository](#https://github.com/andrenajuric/weather-dashboard)
+* [GitHub Repository](https://github.com/andrenajuric/weather-dashboard)
 
 * [Live Page](https://andrenajuric.github.io/weather-dashboard/)
 
