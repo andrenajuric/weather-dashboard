@@ -3,46 +3,44 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <header>
-        <h1>Weather Dashboard</h1>
-    </header>
-    <aside>
-        <h2>Search for a City:</h2>
-        <div class="input-group mb-3">
-            <input type=" search" id="city-input" class="form-control">
-            <button class="btn btn-primary" type="submit" id="searchBtn">
-                <i class="fas fa-search"></i>
-            </button>
+    <main>
+        <div id="header" class="jumbotron bg-dark text-light">
+            <h1 class="text-center">Weather Dashboard</h1>
         </div>
-    </aside>
-    <div id="container" class="col-12 col-sm-9">
-        <div class="card w-75 p-2" id="current-weather">
-            <h2 id="display-headline"> </h2>
-            <p id="current-temp"></p>
-            <p id="current-humidity"></p>
-            <p id="current-windspeed"></p>
-            <p id="current-uvi"></p>
+        <div id="container" class="row">
+            <form id="left" class="col-12 col-sm-3 bg-light">
+                <h2>Search for a City:</h2>
+                <div id="form" class="row">
+                    <input id="city-input" type="text" class="form-control col-9 mx-1">
+                    <button id="searchBtn" class="btn btn-primary col-2 fas fa-search"></button>
+            </form>
         </div>
-        <h2>5-Day Forecast:</h2>
-        <div class="col-sm row" id="forecast-container">
-            <!-- <div id="weather-forecast" class="card p-2 bg-primary text-light col-sm row m-1">
-            <p id="forecast-date"></p>
-            <img id="forecast-icon" class="col-9">
-            <p id="forecast-temp"></p>
-            <p id="forecast-humidity"></p>
-        </div> -->
+        <div id="main-content" class="col-12 col-sm-9">
+            <div class="card w-100 p-2" id="current-weather">
+                <h2 id="display-headline"> </h2>
+                <p id="current-temp"></p>
+                <p id="current-humidity"></p>
+                <p id="current-windspeed"></p>
+                <p id="current-uvi"></p>
+            </div>
+            <h3>5-Day Forecast:</h3>
+            <div class="col-sm row" id="forecast-container">
+
+                <!-- five-day forecast elements will display here -->
+
+            </div>
         </div>
-    </div>
+    </main>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>

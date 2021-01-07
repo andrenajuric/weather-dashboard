@@ -1,14 +1,9 @@
+// global variables
 let today = moment().format("M/D/YYYY");
 const APIKey = "cf0e69cbcb190a2cd7bb4cb1feb02364";
 let cityInput = $("#city-input");
 const searchButton = $("#searchBtn");
-const currentWeatherEl = $("#current-weather");
-const currentHeadlineEl = $("#display-headline");
-const currentTempEl = $("#current-temp");
-const currentHumidityEl = $("#current-humidity");
-const currentWindspeedEl = $("#current-windspeed");
 const currentUviEl = $("#current-uvi");
-const forecastContainerEl = $("#forecast-container");
 
 function citySearch(event) {
 
@@ -46,6 +41,11 @@ function getWeather(city) {
         let latitude = response.coord.lat;
         let longitude = response.coord.lon;
 
+        const currentHeadlineEl = $("#display-headline");
+        const currentTempEl = $("#current-temp");
+        const currentHumidityEl = $("#current-humidity");
+        const currentWindspeedEl = $("#current-windspeed");
+
         // WHEN I view current weather conditions for that city
 
         // THEN I am presented with city name, date, weather icon, temperature, humidity, wind speed, and UV index
@@ -71,8 +71,17 @@ function fiveDays(latitude, longitude) {
 
         // gets the current uv index
         let uvi = response.current.uvi;
+
         // appends to current-uvi element under 'current-weather' in html
         currentUviEl.html(`UV Index: ${uvi}`);
+
+        if (uvi < 3) {
+            currentUviEl.addClass("favorable")
+        } else if (uvi < 7) {
+            currentUviEl.addClass("moderate")
+        } else {
+            currentUviEl.addClass("severe")
+        }
 
         // for loop for 5-day weather info
         for (let i = 1; i < 6; i++) {
@@ -82,20 +91,20 @@ function fiveDays(latitude, longitude) {
             let fiveDayTemps = response.daily[i].temp.day;
             let fiveDayHumidity = response.daily[i].humidity;
 
-            // 
+            // creates the main html layout of each five-day forecast card
             const weatherForecastEl = $("<div id='weather-forecast' class='card p-2 bg-primary text-light col-sm row m-1'>");
             const forecastDateEl = $("<p id='forecast-date'>");
-            const forecastIconEl = $("<img id='forecast-icon' src='' class='col-9'></img>");
+            const forecastIconEl = $("<img id='forecast-icon' src='' class='col-9' style='width:70px;'></img>");
             const forecastTempEl = $("<p id='forecast-temp'>");
             const forecastHumidityEl = $("<p id='forecast-humidity'>");
+            const forecastContainerEl = $("#forecast-container");
+
 
             // appends 5-day elements to html
             forecastContainerEl.append(weatherForecastEl);
             weatherForecastEl.append(forecastDateEl, forecastIconEl, forecastTempEl, forecastHumidityEl);
 
-            // console.log(response.daily[i]);
-            // console.log(fiveDayIcons, fiveDayTemps, fiveDayHumidity);
-
+            // adds time to current moment
             let numDays = moment().add(i, 'd');
             let fiveDates = numDays.format("M/D/YYYY");
 
