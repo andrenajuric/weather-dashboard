@@ -4,6 +4,8 @@ const APIKey = "cf0e69cbcb190a2cd7bb4cb1feb02364";
 let cityInput = $("#city-input");
 const searchButton = $("#searchBtn");
 const currentUviEl = $("#current-uvi");
+let contentContainerEl = $("#main-content");
+const forecastContainerEl = $("#forecast-container");
 
 function citySearch(event) {
 
@@ -14,7 +16,6 @@ function citySearch(event) {
 
     // calls getWeather function & passes city variable into it
     getWeather(city);
-
 }
 
 // calls citySearch function when searchButton is clicked
@@ -54,7 +55,8 @@ function getWeather(city) {
         currentHumidityEl.html(`Humidity: ${currentHumidity}%`);
         currentWindspeedEl.html(`Wind Speed: ${windSpeed} MPH`);
 
-        // calls fiveDays function and passes lat & long results from this function 
+        // calls fiveDays function and passes lat & long results from this function
+
         fiveDays(latitude, longitude);
     });
 }
@@ -83,6 +85,8 @@ function fiveDays(latitude, longitude) {
             currentUviEl.addClass("severe")
         }
 
+        // resets forecast-container whenever search button is clicked
+        forecastContainerEl.empty();
         // for loop for 5-day weather info
         for (let i = 1; i < 6; i++) {
 
@@ -97,8 +101,6 @@ function fiveDays(latitude, longitude) {
             const forecastIconEl = $("<img id='forecast-icon' src='' class='col-9' style='width:70px;'></img>");
             const forecastTempEl = $("<p id='forecast-temp'>");
             const forecastHumidityEl = $("<p id='forecast-humidity'>");
-            const forecastContainerEl = $("#forecast-container");
-
 
             // appends 5-day elements to html
             forecastContainerEl.append(weatherForecastEl);
